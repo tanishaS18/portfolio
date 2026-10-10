@@ -1,0 +1,117 @@
+/* ==========================================================================
+   About
+   ========================================================================== */
+.about {
+  padding-top: clamp(2.5rem, 12.5vw, 11.5rem);
+}
+
+/* ---------- Intro: photo left, text right ---------- */
+.about-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 43fr) minmax(0, 57fr);
+  gap: clamp(1.5rem, 2.7vw, 2.5rem);
+  align-items: start;
+  max-width: 68%; /* stays clear of the staircase nav on the right */
+}
+
+.about-intro__photo img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1290 / 1490;
+  object-fit: cover;
+}
+
+.about-intro__title {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: clamp(2.75rem, 1.2rem + 3.6vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.about-intro__bio {
+  margin-top: clamp(1rem, 2vw, 1.5rem);
+  max-width: 32rem;
+  font-size: var(--text-lg);
+  line-height: 1.5;
+}
+
+.about-intro__tagline {
+  margin-top: clamp(1.25rem, 2.4vw, 2rem);
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: clamp(1.375rem, 1.1rem + 0.8vw, 1.875rem);
+  line-height: 1.2;
+}
+
+.about-intro__location {
+  margin-top: clamp(1rem, 2vw, 1.5rem);
+  font-size: var(--text-lg);
+}
+
+/* ---------- Shared section heading ---------- */
+.about-heading {
+  font-size: clamp(2.5rem, 1.2rem + 3.4vw, 4.25rem);
+}
+
+.about-sep {
+  margin-inline: 0.2em;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Work experience (left) ---------- */
+.about-experience {
+  margin-top: clamp(5rem, 12vw, 11rem);
+}
+
+.about-experience__list {
+  display: grid;
+  gap: clamp(2rem, 4.2vw, 3.75rem);
+  margin-top: clamp(1.75rem, 3.5vw, 3rem);
+  padding-left: 0.4rem;
+}
+
+.about-job__role,
+.about-job__meta {
+  font-size: var(--text-lg);
+  line-height: 1.45;
+}
+.about-job__meta {
+  color: var(--color-text-muted);
+}
+
+/* ---------- Hobbies & interests (right) ---------- */
+.about-hobbies {
+  margin-top: clamp(5rem, 12vw, 11rem);
+  text-align: right;
+}
+
+.about-hobbies__list {
+  display: grid;
+  gap: 0.15rem;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  padding-right: clamp(0.5rem, 1.8vw, 1.5rem);
+  font-size: var(--text-lg);
+  line-height: 1.45;
+}
+
+/* ---------- Tablet & phone ---------- */
+@media (max-width: 899px) {
+  .about-intro {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 34rem;
+  }
+  .about-intro__photo {
+    width: min(100%, 26rem);
+  }
+  .about-experience__list {
+    padding-left: 0;
+  }
+  .about-hobbies {
+    text-align: left;
+  }
+  .about-hobbies__list {
+    padding-right: 0;
+    gap: 0.6rem;
+  }
+}

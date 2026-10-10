@@ -1,0 +1,300 @@
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+.hero {
+  padding-top: clamp(3rem, 13.5vw, 12.5rem);
+}
+
+.hero__statement {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--text-hero);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.hero__line {
+  display: block;
+}
+.hero__line + .hero__line {
+  margin-top: 0.95em;
+}
+
+.hero__emph {
+  font-weight: 700;
+  font-size: 1.14em;
+  letter-spacing: -0.03em;
+}
+
+.hero__icon {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+}
+.hero__icon--face {
+  /* about the height of the text; width follows the file's own aspect ratio */
+  height: 1em;
+  width: auto;
+  object-fit: contain;
+  vertical-align: -0.12em;
+  margin: 0 0.14em;
+  /* avatar.svg has a white background with very faint lines: invert it to black,
+     then boost the lines to white; screen-blend makes the black disappear into the page.
+     (invert(1) contrast(2) brightness(1.2) turned the faint lines black too.) */
+  filter: grayscale(1) invert(1) brightness(10) contrast(1.4);
+  mix-blend-mode: screen;
+}
+.hero__icon--laptop {
+  height: 1.05em;
+  margin-left: 0.3em;
+}
+
+.hero__pulse {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+  margin-left: 0.12em;
+}
+.hero__pulse-line {
+  position: absolute;
+  z-index: -1;
+  left: -8%;
+  top: 52%;
+  width: 150%;
+  max-width: none;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* keep the statement clear of the staircase nav on desktop */
+@media (min-width: 900px) {
+  .hero__statement {
+    max-width: 78%;
+  }
+}
+
+@media (max-width: 899px) {
+  .hero__line + .hero__line {
+    margin-top: 0.55em;
+  }
+}
+
+.hero__nowrap {
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   Process
+   ========================================================================== */
+.process {
+  padding-top: clamp(6rem, 16vw, 16rem);
+}
+
+.process__title {
+  text-align: center;
+  margin-bottom: clamp(3rem, 6vw, 5.5rem);
+}
+
+.process__diagram {
+  --d: clamp(160px, 18.5vw, 266px); /* circle diameter */
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.process__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.process__lines line {
+  stroke: var(--color-text);
+  stroke-width: 5;
+  stroke-dasharray: 16 12;
+}
+
+.process__steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: clamp(1rem, 2.2vw, 2rem);
+}
+
+.process__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+/* zig-zag: 2nd and 4th circles sit lower */
+.process__step:nth-child(even) {
+  margin-top: calc(var(--d) * 1.05);
+}
+
+.process__circle {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: var(--d);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+}
+
+.process__name {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(1.125rem, 0.4rem + 1.55vw, 1.875rem);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.process__body {
+  margin-top: 1.5rem;
+  max-width: calc(var(--d) * 0.92);
+}
+
+.process__num {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+.process__num::before {
+  content: '';
+  width: 1.25rem;
+  height: 2px;
+  background: var(--color-accent);
+}
+
+.process__text {
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+/* staggered fade for the steps, then the dashed lines */
+.process .reveal .process__step {
+  opacity: 0;
+  transition: opacity 800ms var(--ease-out) calc(var(--i) * 140ms + 200ms);
+}
+.process .reveal .process__lines {
+  opacity: 0;
+  transition: opacity 800ms var(--ease-out) 800ms;
+}
+.process .reveal.is-visible .process__step,
+.process .reveal.is-visible .process__lines {
+  opacity: 1;
+}
+
+/* Tablet & phone: a vertical path, circle on the left, text on the right */
+@media (max-width: 899px) {
+  .process__diagram {
+    --d: 120px;
+    max-width: 34rem;
+  }
+  .process__steps {
+    grid-template-columns: 1fr;
+    row-gap: 2.75rem;
+  }
+  .process__step {
+    flex-direction: row;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: left;
+  }
+  .process__step:nth-child(even) {
+    margin-top: 0;
+    padding-left: clamp(1.5rem, 9vw, 3.5rem);
+  }
+  .process__name {
+    font-size: 1rem;
+  }
+  .process__body {
+    margin-top: 0;
+    max-width: none;
+  }
+  .process__text {
+    font-size: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process .reveal .process__step,
+  .process .reveal .process__lines {
+    opacity: 1;
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   Work preview
+   ========================================================================== */
+.work-preview {
+  padding-top: var(--section-space);
+}
+
+.work-preview__heading {
+  display: flex;
+  justify-content: center;
+}
+
+.view-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+}
+.view-link__icon {
+  width: 0.4em;
+  height: 0.4em;
+  transition: transform 300ms var(--ease-out);
+}
+.view-link:hover .view-link__icon {
+  transform: translateX(6px);
+}
+
+.laptop {
+  position: relative;
+  display: block;
+  width: min(100%, 1040px);
+  margin: clamp(0.5rem, 2vw, 1.5rem) auto 0;
+}
+
+.laptop__frame {
+  width: 100%;
+  height: auto;
+}
+
+/* screen area of poster.png, as a % of the image (1094 × 800) */
+.laptop__screen {
+  position: absolute;
+  left: 12.07%;
+  top: 9.25%;
+  width: 74.59%;
+  height: 61.38%;
+  overflow: hidden;
+  overflow: clip; /* not scrollable, so the crop can't shift */
+}
+
+/* scale the 1920 × 1080 video so only its screen area shows */
+.laptop__video {
+  position: absolute;
+  left: -39.4%;
+  top: -21.6%;
+  width: 178.6%;
+  height: 166.8%;
+  max-width: none;
+  object-fit: fill;
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+.laptop__video.is-playing {
+  opacity: 1;
+}

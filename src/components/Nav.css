@@ -1,0 +1,181 @@
+/* ---------- Header shell ---------- */
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: -100px;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+.site-header {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 10;
+  pointer-events: none; /* let clicks pass through empty space to the hero */
+}
+
+.site-header__inner {
+  position: relative;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  height: 0;
+}
+
+.site-logo,
+.site-location,
+.stairs__link {
+  pointer-events: auto;
+}
+
+.site-logo {
+  position: absolute;
+  top: clamp(1rem, 1.8vw, 1.5rem);
+  left: var(--gutter);
+  display: grid;
+  place-items: center;
+  width: clamp(48px, 4.4vw, 64px);
+  aspect-ratio: 1;
+  border: 1.5px solid var(--color-text);
+  border-radius: 50%;
+  overflow: hidden;
+  transition: opacity 200ms ease;
+}
+.site-logo:hover {
+  opacity: 0.75;
+}
+.site-logo img {
+  /* your avatar.svg, small inside the circle, never stretched */
+  width: 66%;
+  height: 66%;
+  object-fit: contain;
+  /* avatar.svg has a white background with very faint lines: invert it to black,
+     then boost the lines to white; screen-blend makes the black disappear into the page.
+     (invert(1) contrast(2) brightness(1.2) turned the faint lines black too.) */
+  filter: grayscale(1) invert(1) brightness(10) contrast(1.4);
+  mix-blend-mode: screen;
+}
+
+.site-location {
+  position: absolute;
+  top: clamp(1.5rem, 2.4vw, 2rem);
+  right: var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+.site-location__icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---------- Staircase links (desktop) ---------- */
+.stairs {
+  position: absolute;
+  top: clamp(3.25rem, 4.4vw, 4rem);
+  right: calc(var(--gutter) + 1.2vw);
+  width: min(34vw, 490px);
+  height: min(37vw, 530px);
+}
+
+.stairs__item {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+}
+
+.stairs__link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.stairs__item--row .stairs__link {
+  flex-direction: row;
+  gap: 1.25rem;
+}
+.stairs__item--column .stairs__link {
+  flex-direction: column;
+}
+.stairs__item--column-reverse .stairs__link {
+  flex-direction: column-reverse;
+}
+
+.stairs__line {
+  display: block;
+  background: var(--color-line);
+  transition: background-color 250ms ease;
+}
+.stairs__item--line-h .stairs__line {
+  width: clamp(48px, 6vw, 86px);
+  height: 2px;
+}
+.stairs__item--line-v .stairs__line {
+  width: 2px;
+  height: clamp(56px, 6.4vw, 92px);
+}
+
+.stairs__label {
+  transition: opacity 200ms ease;
+}
+.stairs__link:hover .stairs__line {
+  background: var(--color-text);
+}
+.stairs__link.active .stairs__line {
+  background: var(--color-accent);
+}
+
+/* ---------- Tablet & phone: compact bar ---------- */
+@media (max-width: 899px) {
+  .site-header {
+    position: relative;
+    pointer-events: auto;
+  }
+  .site-header__inner {
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    row-gap: 1.25rem;
+    padding: 1rem var(--gutter) 0;
+  }
+  .site-logo,
+  .site-location,
+  .stairs {
+    position: static;
+  }
+  .site-logo {
+    width: 48px;
+  }
+  .stairs {
+    width: 100%;
+    height: auto;
+  }
+  .stairs__list {
+    display: flex;
+    gap: clamp(1.25rem, 6vw, 2.5rem);
+  }
+  .stairs__item {
+    position: static;
+  }
+  /* every link: label on top, short line underneath, only the active line shows */
+  .stairs__item .stairs__link {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+  .stairs__item .stairs__line {
+    width: 100%;
+    height: 2px;
+    background: transparent;
+  }
+}
