@@ -19,19 +19,27 @@ export function LinkedInIcon(props) {
 
 export function MailIcon(props) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
-      <path d="M2.4 5.2A2.5 2.5 0 0 1 4.5 4h15a2.5 2.5 0 0 1 2.1 1.2L12 11.6 2.4 5.2Z" />
-      <path d="M2 7.3V17.5A2.5 2.5 0 0 0 4.5 20h15a2.5 2.5 0 0 0 2.5-2.5V7.3l-9.45 6.3a1 1 0 0 1-1.1 0L2 7.3Z" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" aria-hidden="true" {...props}>
+      <rect x="2.5" y="4.5" width="19" height="15" rx="2.5" />
+      <path d="m3.5 6.5 8.5 6.5 8.5-6.5" strokeLinecap="round" />
     </svg>
   )
 }
 
 export function InstagramIcon(props) {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
-      <rect x="1" y="1" width="22" height="22" rx="6.5" fill="currentColor" />
-      <circle cx="12" cy="12" r="5" fill="none" stroke="var(--color-bg)" strokeWidth="2.2" />
-      <circle cx="17.6" cy="6.4" r="1.4" fill="var(--color-bg)" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true" {...props}>
+      <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" />
+      <circle cx="12" cy="12" r="4.3" />
+      <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
+export function ArrowIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+      <path d="M5 12h13M13 6.5 18.5 12 13 17.5" />
     </svg>
   )
 }
@@ -40,7 +48,7 @@ export function ArrowCircleIcon(props) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
       <circle cx="12" cy="12" r="12" fill="currentColor" />
-      <path d="M7 12h9.5M12.5 7.5 17 12l-4.5 4.5" fill="none" stroke="var(--color-bg)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M7 12h9.5M12.5 7.5 17 12l-4.5 4.5" fill="none" stroke="var(--color-ink)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }

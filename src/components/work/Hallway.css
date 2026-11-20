@@ -1,0 +1,289 @@
+/* ==========================================================================
+   The hallway (Work page)
+   ========================================================================== */
+.hallway {
+  position: relative;
+  height: 380vh; /* length of the walk */
+  background: var(--color-bg);
+}
+
+.hallway__stage {
+  --swing: 52deg;
+  --glow: 0.45;
+  --vignette: 0;
+  --takeover: 0;
+  --edges: 1;
+  --headline: 0;
+  --wall: min(34vw, 600px); /* distance from the middle of the hall to each wall */
+  --frame: clamp(170px, 24vw, 380px); /* base frame width */
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  perspective: 1000px;
+  perspective-origin: 50% 46%;
+}
+
+.hallway__world {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.hallway__frames {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+/* the flat layers that hold the 3D scene sit in front of the frames, so they must
+   let clicks through; only the frames themselves are clickable */
+.hallway__world,
+.hallway__frames {
+  pointer-events: none;
+}
+.frame__link {
+  pointer-events: auto;
+}
+
+/* ---------- Frames on the walls ---------- */
+.frame {
+  --side: 1;
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: calc(var(--frame) * var(--size));
+  transform: translate(-50%, -50%) translate3d(calc(var(--side) * var(--wall)), 0, var(--depth))
+    rotateY(calc(var(--side) * -1 * var(--swing)));
+  will-change: opacity, filter;
+}
+.frame--left {
+  --side: -1;
+}
+
+.frame__link {
+  display: block;
+  position: relative;
+}
+.frame__pic {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #0f1440;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
+}
+.frame__pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.08) brightness(0.95);
+  transition: filter 500ms ease;
+}
+/* indigo duotone: keeps the picture's light and dark, swaps its colors for blue */
+.frame__pic::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #2f3bb8;
+  mix-blend-mode: color;
+  transition: opacity 500ms ease;
+}
+.frame__link:hover .frame__pic img,
+.frame__link:focus-visible .frame__pic img {
+  filter: none;
+}
+.frame__link:hover .frame__pic::after,
+.frame__link:focus-visible .frame__pic::after {
+  opacity: 0;
+}
+.frame__link:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 6px;
+}
+
+.frame__label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-top: 0.75rem;
+  color: var(--color-text);
+}
+.frame__title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.frame__label .mono-label {
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+}
+
+/* Pictures that are already blue: shown as they are, a little brighter on hover */
+.frame--plain .frame__pic img,
+.frame--plain .frame__link:hover .frame__pic img {
+  filter: none;
+}
+.frame--plain .frame__pic::after {
+  display: none;
+}
+.frame--plain .frame__pic img {
+  transition: transform 600ms var(--ease-out), filter 400ms ease;
+}
+.frame--plain .frame__link:hover .frame__pic img,
+.frame--plain .frame__link:focus-visible .frame__pic img {
+  transform: scale(1.03);
+  filter: brightness(1.12);
+}
+
+/* ---------- The door ---------- */
+.hallway__door,
+.hallway__halo,
+.hallway__spill {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  pointer-events: none;
+}
+.hallway__door {
+  width: 40vh;
+  height: 80vh;
+  background: var(--color-accent);
+  transform: translate(-50%, -50%) translateZ(-3000px);
+}
+/* soft light around the door (a gradient that fades out inside its own box,
+   so it never shows a hard edge) */
+.hallway__halo {
+  width: 160vh;
+  height: 170vh;
+  background: radial-gradient(closest-side, rgba(238, 202, 98, 0.42), rgba(238, 202, 98, 0.12) 45%, transparent);
+  transform: translate(-50%, -50%) translateZ(-3010px);
+}
+/* light spilling onto the floor in front of the door */
+.hallway__spill {
+  width: 130vh;
+  height: 150vh;
+  background: radial-gradient(closest-side, rgba(238, 202, 98, 0.3), transparent);
+  transform: translate(-50%, -50%) translate3d(0, 40vh, -2300px) rotateX(90deg);
+}
+
+/* ---------- Light and shadow (screen space) ---------- */
+.hallway__glow,
+.hallway__vignette,
+.hallway__takeover {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.hallway__glow {
+  background: radial-gradient(ellipse 55% 60% at 50% 48%, rgba(238, 202, 98, 0.16), transparent 70%);
+  opacity: var(--glow);
+}
+.hallway__vignette {
+  background: radial-gradient(ellipse 48% 62% at 50% 46%, transparent 55%, rgba(5, 4, 3, 0.96) 100%);
+  opacity: var(--vignette);
+}
+
+/* the yellow taking over the screen, then the home headline */
+.hallway__takeover {
+  background: var(--color-accent);
+  color: var(--color-ink);
+  opacity: var(--takeover);
+}
+.hallway__takeover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 75% at 50% 50%, transparent 45%, rgba(70, 52, 12, 0.6) 100%);
+  opacity: var(--edges);
+}
+.hallway__takeover .home-hero__inner {
+  position: relative;
+}
+.hallway__headline {
+  opacity: var(--headline);
+}
+.hallway__ghost {
+  visibility: hidden;
+}
+
+/* ---------- Scroll meter + hint ---------- */
+.walk-meter {
+  --p: 0;
+  position: absolute;
+  right: var(--gutter);
+  top: 32%;
+  height: 34vh;
+  display: flex;
+  gap: 0.5rem;
+  color: var(--color-text);
+  opacity: calc(1 - var(--takeover) * 0.7);
+}
+.walk-meter__label {
+  order: 2;
+  writing-mode: vertical-rl;
+  font-size: 0.6875rem;
+}
+.walk-meter__track {
+  position: relative;
+  width: 1px;
+  background: var(--color-line);
+}
+.walk-meter__dot {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--p) * 100%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  transform: translate(-50%, -50%);
+}
+.walk-meter__pct {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.hallway__hint {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.5rem, 4vh, 2.5rem);
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: none;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  transition: opacity 300ms ease;
+}
+.hallway__hint::first-letter {
+  text-transform: uppercase;
+}
+
+/* ---------- Phones ---------- */
+@media (max-width: 699px) {
+  .hallway {
+    height: 340vh;
+  }
+  .hallway__stage {
+    --wall: 40vw;
+    --frame: 40vw;
+    perspective: 700px;
+  }
+  .hallway__door {
+    width: 26vh;
+    height: 60vh;
+  }
+  .hallway__spill {
+    transform: translate(-50%, -50%) translate3d(0, 35vh, -2300px) rotateX(90deg);
+  }
+  .frame__label {
+    display: none;
+  }
+  .walk-meter {
+    display: none;
+  }
+}

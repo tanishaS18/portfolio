@@ -68,7 +68,7 @@ export default function Process() {
   }, [])
 
   return (
-    <section className="process page-container" aria-labelledby="process-title">
+    <section id="process" className="process page-container" aria-labelledby="process-title">
       <div ref={revealRef} className="reveal">
         <h2 id="process-title" className="display-heading process__title">
           Research, Ideate, Create

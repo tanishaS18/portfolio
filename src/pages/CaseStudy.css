@@ -10,7 +10,7 @@
 
 /* ---------- Hero ---------- */
 .cs-hero {
-  padding-top: clamp(2.5rem, 13vw, 12rem);
+  padding-top: calc(var(--nav-height) + clamp(1.5rem, 7vw, 6rem));
 }
 
 .cs-hero__intro {

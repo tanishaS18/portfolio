@@ -1,15 +1,20 @@
 .contact {
-  padding: var(--section-space) var(--gutter) clamp(4rem, 9vw, 8rem);
+  padding-top: var(--section-space);
+  padding-bottom: clamp(3.5rem, 7vw, 6rem);
   scroll-margin-top: 1rem;
 }
 
 .contact__inner {
-  max-width: 46rem;
-  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(2rem, 6vw, 6rem);
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--color-line);
 }
 
 .contact__copy {
-  margin-top: clamp(1.25rem, 2vw, 1.75rem);
+  margin-top: clamp(1rem, 1.6vw, 1.5rem);
   max-width: 27rem;
   font-size: var(--text-lg);
   line-height: 1.5;
@@ -17,28 +22,46 @@
 
 .contact__links {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: clamp(3rem, 6vw, 5rem);
+  gap: clamp(1rem, 2.4vw, 2rem);
+  flex-shrink: 0;
 }
-
 .contact__links a {
   display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+}
+.contact__icon {
+  display: grid;
   place-items: center;
-  width: clamp(48px, 5vw, 64px);
-  height: clamp(48px, 5vw, 64px);
+  width: clamp(3.5rem, 4.6vw, 4.25rem);
+  aspect-ratio: 1;
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-accent);
   transition:
     transform 250ms var(--ease-out),
-    opacity 250ms ease;
+    background-color 250ms ease,
+    color 250ms ease;
 }
-.contact__links a:hover {
-  transform: translateY(-3px);
-  opacity: 0.8;
-}
-.contact__links svg {
-  width: clamp(34px, 3.6vw, 46px);
+.contact__icon svg {
+  width: 40%;
   height: auto;
 }
-.contact__links .contact__icon--mail {
-  width: clamp(40px, 4.2vw, 54px);
+.contact__label {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+.contact__links a:hover .contact__icon,
+.contact__links a:focus-visible .contact__icon {
+  transform: translateY(-3px);
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
+@media (max-width: 799px) {
+  .contact__inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

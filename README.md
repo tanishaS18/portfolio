@@ -19,6 +19,9 @@ Open the URL it prints (usually http://localhost:5173).
 | Email / LinkedIn / Instagram links | `src/data/site.js` |
 | Nav + contact footer (on every page) | `src/components/Nav.jsx`, `src/components/Footer.jsx` |
 | Home page sections | `src/components/home/` |
+| Work page — the hallway walk | `src/components/work/Hallway.jsx` (+ `.css`) |
+| Frames hanging in the hallway | `src/data/hallway.js` |
+| Floor plan rooms | `src/data/rooms.js` |
 | Case study text | `content/derme.md`, `content/study-circle.md` |
 | Case study list, covers, videos + captions | `src/data/caseStudies.js` |
 | Case study template | `src/pages/CaseStudy.jsx` |
@@ -44,3 +47,13 @@ an entry to `src/data/caseStudies.js`.
 
 Push to GitHub, import the repo in Vercel (it detects Vite automatically).
 `vercel.json` makes direct links like `/about` work on refresh.
+
+## The hallway (Work page)
+
+Scrolling the Work page walks you down a dark hallway toward a yellow door, past
+frames that link to the case studies. At the end the yellow fills the screen and you
+arrive on the home page. It's plain CSS 3D (no WebGL), so the frames are real links.
+
+- Add, move or swap frames in `src/data/hallway.js` (`side`, `depth`, `size`, `to`).
+- Change the length of the walk with `.hallway { height: 460vh }` in `Hallway.css`.
+- Visitors with "reduce motion" turned on get a simple project list instead.

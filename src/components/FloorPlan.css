@@ -1,0 +1,150 @@
+.floorplan {
+  width: min(100% - 2rem, 46rem);
+  max-height: calc(100dvh - 2rem);
+  padding: 0;
+  border: 1px solid var(--color-line);
+  border-radius: 6px;
+  background: #0d0c0b;
+  color: var(--color-text);
+  overflow: auto;
+}
+.floorplan::backdrop {
+  background: rgba(5, 4, 3, 0.78);
+  backdrop-filter: blur(4px);
+}
+.floorplan[open] {
+  animation: floorplan-in 260ms var(--ease-out);
+}
+@keyframes floorplan-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+
+.floorplan__panel {
+  position: relative;
+  padding: clamp(1.75rem, 4vw, 3rem) clamp(1.25rem, 4vw, 3rem);
+  text-align: center;
+}
+.floorplan__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.floorplan__close:hover {
+  color: var(--color-text);
+}
+.floorplan__title {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: clamp(2.25rem, 1.6rem + 2vw, 3.25rem);
+  line-height: 1.05;
+}
+.floorplan__hint {
+  margin-top: 0.4rem;
+  font-size: 1rem;
+  color: var(--color-text-muted);
+}
+
+/* The plan: rooms above and below a long hallway, the entry off to the left */
+.floorplan__grid {
+  display: grid;
+  grid-template-columns: 0.75fr repeat(3, 1fr);
+  grid-template-areas:
+    '. living studio mailbox'
+    'entry hall hall hall';
+  grid-auto-rows: minmax(5.5rem, auto);
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  text-align: center;
+}
+.room--entry { grid-area: entry; }
+.room--hall { grid-area: hall; }
+.room--living { grid-area: living; }
+.room--studio { grid-area: studio; }
+.room--mailbox { grid-area: mailbox; }
+.room--case:nth-last-child(-n + 3) { grid-row: 3; }
+.room--case:nth-last-child(3) { grid-column: 2; }
+.room--case:nth-last-child(2) { grid-column: 3; }
+.room--case:nth-last-child(1) { grid-column: 4; }
+
+.room {
+  display: grid;
+  margin: -0.5px; /* shared walls */
+  border: 1px solid rgba(243, 238, 230, 0.22);
+  background: var(--color-surface);
+}
+.room--entry {
+  margin-block: 0.75rem;
+}
+.room a,
+.room--empty {
+  display: grid;
+  place-content: center;
+  gap: 0.35rem;
+  padding: 1rem 0.75rem;
+  min-height: 5.5rem;
+}
+.room a {
+  transition: background-color 200ms ease;
+}
+.room a:hover,
+.room a:focus-visible {
+  background: rgba(238, 202, 98, 0.08);
+}
+.room a:focus-visible {
+  outline-offset: -3px;
+}
+.room__name {
+  font-family: var(--font-heading);
+  font-size: 1.375rem;
+  line-height: 1.1;
+}
+.room__kind {
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+}
+.room.is-here {
+  position: relative;
+  z-index: 1;
+  border-color: var(--color-accent);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+}
+.room.is-here .room__kind {
+  color: var(--color-accent);
+}
+.room--empty {
+  border-style: dashed;
+  background: transparent;
+  opacity: 0.6;
+}
+
+/* Phones: a simple two-column plan */
+@media (max-width: 599px) {
+  .floorplan__grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: none;
+  }
+  .floorplan__grid > .room {
+    grid-area: auto !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+    margin: -0.5px;
+  }
+  .floorplan__grid > .room--entry,
+  .floorplan__grid > .room--hall {
+    grid-column: span 2 !important;
+  }
+  .room--empty {
+    display: none;
+  }
+}

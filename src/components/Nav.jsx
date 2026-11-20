@@ -1,59 +1,53 @@
-import { Link, NavLink } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { site } from '../data/site.js'
-import { PinIcon } from './Icons.jsx'
+import { contactTarget } from '../data/rooms.js'
+import FloorPlan from './FloorPlan.jsx'
 import './Nav.css'
 
-/*
-  The page links step diagonally down the right side, like a staircase.
-  Each link has its own short line; the active page's line turns accent red.
-    x / y  — position inside the staircase box (desktop only)
-    line   — 'h' horizontal or 'v' vertical
-    layout — where the line sits relative to the label
-*/
-const LINKS = [
-  { label: 'Home', to: '/', end: true, x: '0%', y: '0%', line: 'h', layout: 'row' },
-  { label: 'About', to: '/about', x: '35%', y: '20%', line: 'v', layout: 'column' },
-  { label: 'work', to: '/work', x: '74%', y: '50%', line: 'h', layout: 'column-reverse' },
-  { label: 'contact', href: '#contact', x: '86.5%', y: '74%', line: 'v', layout: 'column-reverse' },
-]
-
 export default function Nav() {
+  const { pathname, state } = useLocation()
+  const arrived = Boolean(state?.fromHallway) // came through the hallway door
+  const [planOpen, setPlanOpen] = useState(false)
+  const onLight = pathname === '/' // the home page starts on yellow
+  const fixed = pathname === '/work' // stays visible during the hallway walk
+
   return (
-    <header className="site-header">
-      <div className="site-header__inner">
-        <Link to="/" className="site-logo" aria-label={`${site.name} — home`}>
-          <img src="/assets/avatar.svg" alt="" width="140" height="138" />
+    <header className={`site-header${onLight ? ' site-header--on-light' : ''}${fixed ? ' site-header--fixed' : ''}${arrived ? ' dissolve-in' : ''}`}>
+      <div className="site-header__inner page-container">
+        <Link to="/" className="brand" aria-label={`${site.name}, home`}>
+          <span className="brand__avatar">
+            <img src="/assets/logo.png" alt="" width="512" height="512" />
+          </span>
+          <span className="brand__name">{site.name}</span>
         </Link>
 
-        <p className="site-location">
-          <PinIcon className="site-location__icon" />
-          {site.location}
-        </p>
-
-        <nav className="stairs" aria-label="Main">
-          <ul className="stairs__list">
-            {LINKS.map((link) => (
-              <li
-                key={link.label}
-                className={`stairs__item stairs__item--${link.layout} stairs__item--line-${link.line}`}
-                style={{ '--x': link.x, '--y': link.y }}
-              >
-                {link.to ? (
-                  <NavLink to={link.to} end={link.end} className="stairs__link">
-                    <span className="stairs__label">{link.label}</span>
-                    <span className="stairs__line" aria-hidden="true" />
-                  </NavLink>
-                ) : (
-                  <a href={link.href} className="stairs__link">
-                    <span className="stairs__label">{link.label}</span>
-                    <span className="stairs__line" aria-hidden="true" />
-                  </a>
-                )}
-              </li>
-            ))}
+        <nav aria-label="Main" className="site-nav">
+          <ul className="site-nav__list">
+            <li>
+              <NavLink to="/work" end>
+                Work
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/about">About</NavLink>
+            </li>
+            <li>
+              <Link to={contactTarget(pathname)}>Contact</Link>
+            </li>
           </ul>
+          <button
+            type="button"
+            className="floorplan-btn"
+            aria-haspopup="dialog"
+            aria-expanded={planOpen}
+            onClick={() => setPlanOpen(true)}
+          >
+            Floor plan
+          </button>
         </nav>
       </div>
+      <FloorPlan open={planOpen} onClose={() => setPlanOpen(false)} />
     </header>
   )
 }

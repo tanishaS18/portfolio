@@ -3,28 +3,32 @@
    Change values here and they flow through every page.
    ========================================================================== */
 :root {
-  /* Color */
-  --color-bg: #000000;
-  --color-text: #ffffff;
-  --color-text-muted: rgba(255, 255, 255, 0.72);
-  --color-line: rgba(255, 255, 255, 0.55);
-  --color-accent: #b3261e; /* the red line marking the active nav link */
-  --color-surface: #ffffff; /* process circles */
-  --color-on-surface: #000000;
+  /* Color — "rooms" theme: a dark house lit by a yellow doorway */
+  --color-bg: #0a0908; /* near-black hallway */
+  --color-text: #f3eee6; /* warm off-white */
+  --color-text-muted: rgba(243, 238, 230, 0.68);
+  --color-line: rgba(243, 238, 230, 0.18);
+  --color-accent: #eeca62; /* doorway yellow */
+  --color-ink: #0a0908; /* text on yellow */
+  --color-gold: #e7b569; /* labels inside the process circles */
+  --color-surface: #191613; /* process circles, icon buttons, rooms */
+  --color-on-surface: var(--color-gold);
 
   /* Type */
   --font-heading: 'Instrument Serif', 'Times New Roman', Georgia, serif;
   --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
   --text-body: 1rem; /* 16px — never go below this for reading text */
   --text-lg: clamp(1.0625rem, 0.95rem + 0.35vw, 1.25rem); /* 17 → 20px */
-  --text-hero: clamp(1.875rem, 0.6rem + 3.9vw, 4rem); /* 30 → 64px */
+  --text-hero: clamp(3rem, 1rem + 5.6vw, 6.5rem); /* 48 → 104px, serif headline */
   --text-display: clamp(2.5rem, 1rem + 4.5vw, 5rem); /* 40 → 80px, serif section titles */
 
   /* Layout */
   --max-width: 1440px;
   --gutter: clamp(1.25rem, 4vw, 3.5rem); /* 20 → 56px side padding */
   --section-space: clamp(5rem, 11vw, 11rem);
+  --nav-height: clamp(4.5rem, 6vw, 5.5rem);
 
   /* Motion */
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -94,7 +98,7 @@ a {
 
 ::selection {
   background: var(--color-accent);
-  color: var(--color-text);
+  color: var(--color-ink);
 }
 
 /* Serif section headings share one look */
@@ -173,7 +177,7 @@ a {
 /* Placeholder pages (About / Work until they're built) */
 .stub-page {
   min-height: 60vh;
-  padding-top: clamp(3rem, 16vw, 14rem);
+  padding-top: calc(var(--nav-height) + clamp(1.5rem, 7vw, 6rem));
 }
 .stub-page p {
   margin-top: 1rem;
@@ -204,4 +208,72 @@ a {
   width: 1.25rem;
   height: 2px;
   background: var(--color-accent);
+}
+
+/* Small monospace label, e.g. "SEATTLE, WA", "SCROLL", "CASE STUDY" */
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* The big serif headline, shared by the Home hero and the end of the hallway walk
+   so the two line up exactly when one turns into the other. */
+.hero-headline {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: var(--text-hero);
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+}
+.hero-headline em {
+  font-style: italic;
+}
+.hero-shell {
+  padding-top: calc(var(--nav-height) + clamp(1.5rem, 4vw, 3.5rem));
+}
+
+/* Pill buttons */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.6rem 1.35rem;
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition:
+    transform 200ms var(--ease-out),
+    background-color 200ms ease,
+    color 200ms ease;
+}
+.pill:hover {
+  transform: translateY(-2px);
+}
+.pill--solid {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-accent);
+}
+
+/* Opacity-only fade (no movement), used when arriving on Home through the hallway door */
+.dissolve-in {
+  opacity: 0;
+  animation: dissolve 700ms ease forwards;
+  animation-delay: calc(var(--i, 0) * 90ms + 60ms);
+}
+@keyframes dissolve {
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dissolve-in {
+    opacity: 1;
+    animation: none;
+  }
 }

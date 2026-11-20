@@ -1,93 +1,73 @@
 /* ==========================================================================
-   Hero
+   Hero — the yellow room at the end of the hallway
    ========================================================================== */
-.hero {
-  padding-top: clamp(3rem, 13.5vw, 12.5rem);
+.home-hero {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+.home-hero ::selection {
+  background: var(--color-ink);
+  color: var(--color-accent);
+}
+.home-hero :focus-visible {
+  outline-color: var(--color-ink);
 }
 
-.hero__statement {
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: var(--text-hero);
-  line-height: 1.15;
-  letter-spacing: -0.025em;
+.home-hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  min-height: min(100svh, 58rem);
+  padding-bottom: clamp(3.5rem, 7vw, 6rem);
 }
 
-.hero__line {
-  display: block;
-}
-.hero__line + .hero__line {
-  margin-top: 0.95em;
+.home-hero--arrived .home-hero__inner,
+.hallway__takeover .home-hero__inner {
+  min-height: 100svh; /* same screen at the end of the walk and on arrival */
 }
 
-.hero__emph {
-  font-weight: 700;
-  font-size: 1.14em;
-  letter-spacing: -0.03em;
+.home-hero__eyebrow {
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
 }
 
-.hero__icon {
+.hero-headline .pulse-line {
   display: inline-block;
-  width: auto;
-  vertical-align: middle;
+  width: 1.55em;
+  height: 0.3em;
+  margin-left: 0.04em;
+  vertical-align: 0.12em;
+  overflow: visible;
 }
-.hero__icon--face {
-  /* about the height of the text; width follows the file's own aspect ratio */
-  height: 1em;
-  width: auto;
+
+.home-hero__sub {
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  font-size: var(--text-lg);
+  font-weight: 500;
+}
+
+.home-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: clamp(2rem, 4vw, 3.25rem);
+}
+
+.home-hero__avatar {
+  justify-self: center;
+  width: min(100%, 22rem);
+}
+.home-hero__avatar img {
+  width: 100%;
+  height: auto;
   object-fit: contain;
-  vertical-align: -0.12em;
-  margin: 0 0.14em;
-  /* avatar.svg has a white background with very faint lines: invert it to black,
-     then boost the lines to white; screen-blend makes the black disappear into the page.
-     (invert(1) contrast(2) brightness(1.2) turned the faint lines black too.) */
-  filter: grayscale(1) invert(1) brightness(10) contrast(1.4);
-  mix-blend-mode: screen;
-}
-.hero__icon--laptop {
-  height: 1.05em;
-  margin-left: 0.3em;
-}
-
-.hero__pulse {
-  position: relative;
-  display: inline-block;
-  isolation: isolate;
-  margin-left: 0.12em;
-}
-.hero__pulse-line {
-  position: absolute;
-  z-index: -1;
-  left: -8%;
-  top: 52%;
-  width: 150%;
-  max-width: none;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
-/* keep the statement clear of the staircase nav on desktop */
-@media (min-width: 900px) {
-  .hero__statement {
-    max-width: 78%;
-  }
-}
-
-@media (max-width: 899px) {
-  .hero__line + .hero__line {
-    margin-top: 0.55em;
-  }
-}
-
-.hero__nowrap {
-  white-space: nowrap;
 }
 
 /* ==========================================================================
-   Process
+   Process — four rooms of the studio
    ========================================================================== */
 .process {
-  padding-top: clamp(6rem, 16vw, 16rem);
+  padding-top: var(--section-space);
 }
 
 .process__title {
@@ -96,7 +76,7 @@
 }
 
 .process__diagram {
-  --d: clamp(160px, 18.5vw, 266px); /* circle diameter */
+  --d: clamp(150px, 16vw, 230px); /* circle diameter */
   position: relative;
   max-width: 1200px;
   margin: 0 auto;
@@ -111,9 +91,9 @@
   pointer-events: none;
 }
 .process__lines line {
-  stroke: var(--color-text);
-  stroke-width: 5;
-  stroke-dasharray: 16 12;
+  stroke: rgba(243, 238, 230, 0.28);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 7;
 }
 
 .process__steps {
@@ -129,9 +109,8 @@
   align-items: center;
   text-align: center;
 }
-/* zig-zag: 2nd and 4th circles sit lower */
 .process__step:nth-child(even) {
-  margin-top: calc(var(--d) * 1.05);
+  margin-top: calc(var(--d) * 0.6);
 }
 
 .process__circle {
@@ -141,21 +120,27 @@
   width: var(--d);
   aspect-ratio: 1;
   border-radius: 50%;
+  border: 1px solid rgba(231, 181, 105, 0.12);
   background: var(--color-surface);
   color: var(--color-on-surface);
+  transition:
+    border-color 300ms ease,
+    transform 300ms var(--ease-out);
+}
+.process__step:hover .process__circle {
+  border-color: rgba(231, 181, 105, 0.5);
 }
 
 .process__name {
   font-family: var(--font-body);
   font-weight: 700;
-  font-size: clamp(1.125rem, 0.4rem + 1.55vw, 1.875rem);
+  font-size: clamp(1.0625rem, 0.6rem + 1vw, 1.5rem);
   line-height: 1.25;
-  letter-spacing: -0.01em;
 }
 
 .process__body {
   margin-top: 1.5rem;
-  max-width: calc(var(--d) * 0.92);
+  max-width: calc(var(--d) * 1.05);
 }
 
 .process__num {
@@ -163,24 +148,23 @@
   align-items: center;
   gap: 0.6rem;
   margin-bottom: 0.5rem;
-  font-size: 1rem;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
   letter-spacing: 0.06em;
 }
 .process__num::before {
   content: '';
-  width: 1.25rem;
+  width: 1.1rem;
   height: 2px;
   background: var(--color-accent);
 }
 
 .process__text {
-  font-size: 1.0625rem;
+  font-size: 1rem;
   line-height: 1.55;
   color: var(--color-text-muted);
 }
 
-/* staggered fade for the steps, then the dashed lines */
 .process .reveal .process__step {
   opacity: 0;
   transition: opacity 800ms var(--ease-out) calc(var(--i) * 140ms + 200ms);
@@ -194,14 +178,51 @@
   opacity: 1;
 }
 
-/* Tablet & phone: a vertical path, circle on the left, text on the right */
+/* ==========================================================================
+   View the work
+   ========================================================================== */
+.view-work {
+  padding-top: clamp(4rem, 8vw, 7rem);
+}
+.view-work__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 1.4rem + 1.8vw, 3rem);
+  line-height: 1.1;
+}
+.view-work__icon {
+  width: 0.75em;
+  height: 0.75em;
+  color: var(--color-accent);
+  transition: transform 300ms var(--ease-out);
+}
+.view-work__link:hover .view-work__icon {
+  transform: translateX(6px);
+}
+
+/* ==========================================================================
+   Tablet & phone
+   ========================================================================== */
 @media (max-width: 899px) {
+  .home-hero__inner {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+    padding-top: calc(var(--nav-height) + 1.5rem);
+  }
+  .home-hero__avatar {
+    grid-row: 1;
+    justify-self: start;
+    width: clamp(7rem, 32vw, 11rem);
+  }
+
   .process__diagram {
     --d: 120px;
     max-width: 34rem;
   }
   .process__steps {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     row-gap: 2.75rem;
   }
   .process__step {
@@ -221,9 +242,6 @@
     margin-top: 0;
     max-width: none;
   }
-  .process__text {
-    font-size: 1rem;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -232,69 +250,4 @@
     opacity: 1;
     transition: none;
   }
-}
-
-/* ==========================================================================
-   Work preview
-   ========================================================================== */
-.work-preview {
-  padding-top: var(--section-space);
-}
-
-.work-preview__heading {
-  display: flex;
-  justify-content: center;
-}
-
-.view-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3em;
-}
-.view-link__icon {
-  width: 0.4em;
-  height: 0.4em;
-  transition: transform 300ms var(--ease-out);
-}
-.view-link:hover .view-link__icon {
-  transform: translateX(6px);
-}
-
-.laptop {
-  position: relative;
-  display: block;
-  width: min(100%, 1040px);
-  margin: clamp(0.5rem, 2vw, 1.5rem) auto 0;
-}
-
-.laptop__frame {
-  width: 100%;
-  height: auto;
-}
-
-/* screen area of poster.png, as a % of the image (1094 × 800) */
-.laptop__screen {
-  position: absolute;
-  left: 12.07%;
-  top: 9.25%;
-  width: 74.59%;
-  height: 61.38%;
-  overflow: hidden;
-  overflow: clip; /* not scrollable, so the crop can't shift */
-}
-
-/* scale the 1920 × 1080 video so only its screen area shows */
-.laptop__video {
-  position: absolute;
-  left: -39.4%;
-  top: -21.6%;
-  width: 178.6%;
-  height: 166.8%;
-  max-width: none;
-  object-fit: fill;
-  opacity: 0;
-  transition: opacity 700ms ease;
-}
-.laptop__video.is-playing {
-  opacity: 1;
 }

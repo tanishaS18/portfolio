@@ -2,7 +2,7 @@
    About
    ========================================================================== */
 .about {
-  padding-top: clamp(2.5rem, 12.5vw, 11.5rem);
+  padding-top: calc(var(--nav-height) + clamp(1.5rem, 7vw, 6rem));
 }
 
 /* ---------- Intro: photo left, text right ---------- */

@@ -1,5 +1,5 @@
 .work {
-  padding-top: clamp(2.5rem, 15vw, 14rem);
+  padding-top: calc(var(--nav-height) + clamp(1.5rem, 7vw, 6rem));
 }
 
 .work__title {
@@ -89,4 +89,8 @@
   .work-card__text {
     padding-top: 0;
   }
+}
+
+.work__door {
+  margin-top: clamp(4rem, 8vw, 7rem);
 }
